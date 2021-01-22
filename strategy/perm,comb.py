@@ -1,3 +1,4 @@
+#조합1
 def comb(lst, n):
     ret = []
     if n > len(lst): return ret
@@ -12,7 +13,7 @@ def comb(lst, n):
 
     return ret
 
-
+#순열1
 def perm(lst, n):
     ret = []
     if n > len(lst): return ret
@@ -28,3 +29,24 @@ def perm(lst, n):
                 ret.append([lst[i]] + p)
 
     return ret
+
+#순열2
+def permute(lst, r):
+    results = []
+    prev_elements = []
+
+    def dfs(elements):
+        if len(elements) ==(len(lst)-r):
+            results.append(prev_elements[:])
+
+        for e in elements:
+            next_elements = elements[:]
+            next_elements.remove(e)
+
+            prev_elements.append(e)
+            dfs(next_elements)
+            prev_elements.pop()
+
+    dfs(lst)
+    return results
+
