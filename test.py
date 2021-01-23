@@ -17,7 +17,13 @@ def permute(lst, r):
     dfs(lst)
     return results
 
-print(permute([1,2,3], 2))
+#print(permute([], 2))
+
+#리스트 비었을시 FOR문 작동 X
+
+for i in []:
+    print(3)
+
 
 
 
