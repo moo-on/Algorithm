@@ -1,45 +1,47 @@
 #체크리스트와 DFS를 이용한 순열 출력, 문제점 : result가 저장이 안됌.
 
-def perm(n, r):
-    results =[]
-    checklist = [0]*len(n)
-    result= [0]*r
-    def DFS(L) :
-        #종료조건
-        if L== r:
-            print(result)
-            results.append(result[:])
-        #재귀문
-        else :
-            for i in range(len(n)):
-                if checklist[i]==0:
-                    result[L] =n[i]
-                    checklist[i] = 1
-                    DFS(L+1)
-        #백트래버스
-                    checklist[i] = 0
-    DFS(0)
-    return results
-
-print(perm([1,2,3],2))
+# def perm(n, r):
+#     results =[]
+#     checklist = [0]*len(n)
+#     result= [0]*r
+#     def DFS(L) :
+#         #종료조건
+#         if L== r:
+#             print(result)
+#             results.append(result[:])
+#         #재귀문
+#         else :
+#             for i in range(len(n)):
+#                 if checklist[i]==0:
+#                     result[L] =n[i]
+#                     checklist[i] = 1
+#                     DFS(L+1)
+#         #백트래버스
+#                     checklist[i] = 0
+#     DFS(0)
+#     return results
+#
+# print(perm([1,2,3],2))
 
 
 
 
 #조합1
-# def comb(lst, n):
-#     ret = []
-#     if n > len(lst): return ret
-#
-#     if n == 1:
-#         for i in lst:
-#             ret.append([i])
-#     elif n > 1:
-#         for i in range(len(lst) - n + 1):
-#             for temp in comb(lst[i + 1:], n - 1):
-#                 ret.append([lst[i]] + temp)
-#
-#     return ret
+def comb(lst, n):
+    ret = []
+    if n > len(lst): return ret
+
+    if n == 1:
+        for i in lst:
+            ret.append([i])
+    elif n > 1:
+        for i in range(len(lst) - n + 1):
+            for temp in comb(lst[i + 1:], n - 1):
+                ret.append([lst[i]] + temp)
+
+    return ret
+
+print(comb([1,2,3,4,5],2))
 
 #순열1
 # def perm(lst, n):

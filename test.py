@@ -1,13 +1,12 @@
 
+ret =[]
+for i in range(3):
+    ret.append([i])
 
-tup = 'A','B', 'C'
-lst = list(tup)
-print(lst)
+lst= [1,2,3]
 
-for i in lst:
-    print(i.swapcase())
-
-
+ret.append([lst[2]] + [3])
+print(ret)
 
 
 
