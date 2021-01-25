@@ -41,7 +41,7 @@ def comb(lst, n):
 
     return ret
 
-print(comb([1,2,3,4,5],2))
+print(comb([1,2,3,4,5],3))
 
 #순열1
 # def perm(lst, n):
