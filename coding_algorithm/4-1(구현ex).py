@@ -29,18 +29,24 @@ input = sys.stdin.readline
 #
 # print(list(answer.values()))
 
+
+
+
+
+
+
+
+
+
 #ex2
 
-n= int(input())
+n = int(input())
 
 result = (n+1)*1575
 
-if 23 <= n:
-    result+=2025*3
-elif 13<= n:
-    result += 2025*2
-elif 3<= n:
-    result +=2025
+if 23 <= n: result += 2025*3
+elif 13 <= n: result += 2025*2
+elif 3 <= n: result += 2025
 
 print(result)
 
