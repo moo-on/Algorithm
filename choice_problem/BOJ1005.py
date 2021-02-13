@@ -1,46 +1,60 @@
 import sys
-import heapq
+from collections import deque
 
 input = sys.stdin.readline
-print = sys.stdout.write
-INF = int(1e9)
 
-
-def dijkstra(start):
-    q = []
-    heapq.heappush(q, (0, start))
-    distance[start] = 0
+# 위상 정렬 정의
+def topology():
+    q = deque()
+    # 시작점 q에 넣기
+    for i in range(1, n+1):
+        if degree[i] == 0:
+            q.append(i)
+            dp[i] += time[i]
+    # 끝 지점 까지 가기
     while q:
-        dist, now = heapq.heappop(q)
-        if distance[now] < dist:
-            continue
-        for i in graph[now]:
-            cost = i[1] + dist
-            if cost < distance[i[0]]:
-                distance[i[0]] = cost
-                heapq.heappush(q, (cost, i[0]))
+        now = q.popleft()
+        # 꺼낸 노드와 연결된 노드 처리
+        for e in graph[now]:
+            # 간선 하나 삭제
+            degree[e] -= 1
+            # 다른 경로가 더 오래 걸릴 경우 시간 바꿔줌
+            if dp[e] < dp[now] + time[e]:
+                dp[e] = dp[now] + time[e]
+            # 간선이 0이 된 경우 q에 넣어줌
+            if degree[e] == 0:
+                q.append(e)
 
-t = int(input())
-answer= []
-for _ in range(t):
-    n,k = map(int, input().split())
+# 테스트 케이스 입력 & 정답문 생성
+case = int(input())
+answer = []
 
-    #기본세팅
+for _ in range(case):
+    # 노드, 규칙 수 & 건물 건설 시간 입력
+    n, k = map(int, input().split())
+    time = [0] + list(map(int, input().split()))
 
-    graph = [[] for _ in range(n+1)]
-    visited = [False]*(n+1)
-    distance = [INF]*(n+1)
+    # 진입차수 초기화 & 지나온 시간 저장
+    degree = [0] * (n+1)
+    dp = [0] * (n+1)
 
-    lst = list(map(int, input().split()))
-    #간선입력
+    # 규칙 입력 ex (1,2) = 2는 1이 선행되어야함
+    graph =[[] for _ in range(n+1)]
     for _ in range(k):
         a, b = map(int, input().split())
-        graph[b].append((a, -lst[a-1]))
+        graph[a].append(b)
+        degree[b] += 1
 
-    start = int(input())
+    # 함수 실행
+    topology()
 
-    dijkstra(start)
-    MIN = min(distance)
-    answer.append(-MIN+lst[start-1])
+    # 원하는 건물 입력 & 출력
+    answer.append(dp[int(input())])
 
-[print(str(answer[i])+"\n") for i in range(t)]
+#정답 출력
+[print(answer[i]) for i in range(case)]
+
+
+
+
+
