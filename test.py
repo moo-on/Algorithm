@@ -1,5 +1,8 @@
-degree = [0] * (8)
-dp = [0 for _ in range(8)]
 
-print(degree)
-print(dp)
+lst = [1,2,3,4,5]
+
+for i in range(len(lst)):
+    print(lst[0])
+    lst.pop()
+
+
