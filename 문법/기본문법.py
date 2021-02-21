@@ -27,3 +27,5 @@ class oneline_if:
 
 #내장 종류
 # #sum() min() max() eval() sorted(lst) sort()
+
+#
