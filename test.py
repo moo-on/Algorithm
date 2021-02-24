@@ -1,14 +1,21 @@
-def solution(phone_book):
-    set_ = set()
-    for L in phone_book:
-        for j in range(len(L)-1):
-            for i in range(len(L)-j):
-                    set_.add(L[i:i+j+1])
-                    print(L[i:i+j+1])
-    for L in phone_book:
-        if L in set_: return False
-    return True
-
-solution(['119', '97674223', '1195524421'])
 
 
+
+
+genres = ['pop', 'classic', 'classic', 'classic', 'jazz','ex','jazz']
+plays = [500, 600, 150, 800, 2500,700, 2500]
+
+dic = {}
+
+answer = []
+for genre, play in zip(genres, enumerate(plays)):
+    if genre not in dic.keys():
+        dic[genre] = [play]
+    else:
+        dic[genre].append(play)
+
+print(dic)
+print(sorted(dic))
+genreSort = sorted(dic, key = lambda x: sum(map(lambda y: y[1], dic[x])), reverse=True)
+
+print(genreSort)

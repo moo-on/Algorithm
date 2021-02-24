@@ -28,4 +28,4 @@ class oneline_if:
 #내장 종류
 # #sum() min() max() eval() sorted(lst) sort()
 
-#
+#filter,map의 활용
