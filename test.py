@@ -1,3 +1,17 @@
-lst =[1,2,3,4]
+import sys
 
-print(lst[:-1])
+input = sys.stdin.readline
+
+
+def main():
+    skill_lst = input().split()
+    n = int(input())
+    as_lst = [input().split() for _ in range(n)]
+
+
+
+    print(as_lst)
+
+
+if __name__ == "__main__":
+    main()

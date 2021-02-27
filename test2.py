@@ -1,30 +1,33 @@
-def solution(begin, target, words):
-    answer = 0
-    return answer
+import sys
 
-begin = 'hit'
-target = 'cog'
-words = ['hot', 'dot', 'dog', 'lot', 'log', 'cog'] #4
-length = len(words)
-
-node = [[] for _ in range(length)]
-
-i=0
-for word in words[:-1]:
-    node[i].append(1)
-    i += 1
-    j= 0
-    for word_2 in words[i:]:
-        s = 0
-
-        for w, w2 in zip(list(word), list(word_2)):
-            if w != w2: s += 1
-        if s == 1:
-            node[i+j].append(1)
-        else :
-            node[i+j].append(0)
-        print(i)
-        j += 1
+input = sys.stdin.readline
 
 
-print(node)
+def main():
+    n = int(input())
+    lst = list(map(int, input().split()))
+
+    visited =[0 for _ in range(n)]
+    answers = []
+
+    def DFS(lst, visited, start):
+        stack = [lst[start]]
+        visited[start] = 1
+        now = start
+        answer = 1
+        while stack:
+            e = stack.pop()
+
+            if visited[e+now] == 0 :
+                visited[e+now] = 1
+                stack.append(lst[e+now])
+                now = e+now
+                answer += 1
+            else: return answer+1
+    for i in range(3):
+        answers.append(DFS(lst, visited, i))
+    print(max(answers))
+
+
+if __name__ == "__main__":
+    main()
