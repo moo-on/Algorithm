@@ -1,80 +1,43 @@
-# 8	2	["D 2","C","U 3","C","D 4","C","U 2","Z","Z"]
+def solution(n, computers):
+    answer = 0
 
-def solution(n, k, cmd):
+    for i,l in enumerate(computers):
+        for j,e in enumerate(l):
+            if e ==1:
+                computers[i] = j
+                break
 
-    lst = [i for i in range(n)]
-    trash = []
+    for i,e in enumerate(computers):
+        computers[i] = computers[e]
 
-    for e in cmd:
-        if e[0] == 'D':
-            k += int(e[2])
-            continue
-        if e[0] == 'U':
-            k -= int(e[2])
-            continue
-
-        if e[0] == 'C':
-            trash.append(lst.copy())
-            lst.pop(k)
-            if len(lst) == k:
-                k -= 1
-            continue
-
-        if e[0] == 'Z':
-            i = lst[k]
-            lst = trash.pop()
-            k = lst.index(i)
-            continue
-
-    answer = ['X'] * n
-    for i in lst:
-        answer[i] = 'O'
+    return len(set(computers))
 
 
-    return ''.join(answer)
-
-cmd = ["D 2","C","U 3","C","D 4","C","U 2","Z","Z"]
-
-n =  8
-k = 2
-lst = [i for i in range(n)]
-trash = []
-
-for e in cmd:
-    if e[0] == 'D':
-        k += int(e[2])
-        continue
-    if e[0] == 'U':
-        k -= int(e[2])
-        continue
-
-    if e[0] == 'C':
-        print('lst:',lst)
-        trash.append(lst.copy())
-        print('Z_f k:',k)
-        lst.pop(k)
-        if len(lst)  == k:
-            k -= 1
-        print(lst)
-        print('Z_b k:', k)
-        continue
-
-    if e[0] == 'Z':
-        i = lst[k]
-        lst = trash.pop()
-        k = lst.index(i)
-        continue
-
-answer = ['X'] * n
-for i in lst:
-    answer[i] = 'O'
-
-''.join(answer)
+n = 3
+lst = [[1, 1, 0], [1, 1, 0], [0, 0, 1]] # return 2
+#lst = [[1, 1, 0], [1, 1, 1], [0, 1, 1]]
+print(solution(n, lst))
 
 
 
-
-a= [1,2,3,4]
-tra= []
-tra.append(a)
-tra.pop()
+# def solution(n, computers):
+#     answer = 0
+#     visited = [0 for _ in range(n)]
+#
+#     def DFS(computers, n, start, visited):
+#         stack = [start]
+#         while stack:
+#             j = stack.pop()
+#             visited[j] = 1
+#             for i in range(n):
+#                 if computers[j][i] == 1 and visited[i] ==0:
+#                     stack.append(i)
+#
+#     i = 0
+#     while 0 in visited:
+#         if visited[i] == 0:
+#             DFS(computers, n, i, visited)
+#             answer += 1
+#         i += 1
+#
+#     return answer
