@@ -1,13 +1,18 @@
-import sys
 
-input = sys.stdin.readline
+a = [1,2,3]
 
-# n = [input().split() for _ in range(2)]
-#
-# print(n)
+del a[1]
 
-a = [input() for _ in range(2)]
+l = [1,0,0,2,0,0,3,0,4,0]
 
 
-# a = input().split()
-print(a)
+temp = []
+for e in l:
+    if e != 0:
+        temp.append(e)
+temp.extend([0]*(len(l)-len(temp)))
+l = temp
+temp.clear()
+print(l)
+print(temp)
+print(l)
