@@ -25,6 +25,7 @@ for idx in range(n):
 
 print(result)
 
+
 # 1 1 1 1 0 0 1 1 1
 # 1 1 1 1 0 0 1 1 1
 # 0 0 1 1 1 0 1 1 1
