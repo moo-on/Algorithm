@@ -1,2 +1,11 @@
-A = [1,7,8] # 1 7 17 18 71 78 81 87
-
+a = 'abc'
+a = list(a[:1].upper())
+print(a)
+print(3)
+print(3)
+print(36)
+print(36)
+print(3)print(3)
+print(36)
+print(36)
+print(3)

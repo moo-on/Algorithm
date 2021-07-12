@@ -1,9 +1,0 @@
-
-정규식사용법 regex
-
-lambda
-
-reduce
-
-startswith
-

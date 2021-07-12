@@ -102,8 +102,10 @@ print(decimal_to_hexadecimal(10))
 #16->10
 def hexadecimal_to_decimal(hexadecimal):
     answer = 0
+    #0x제거
     hexa = list(hexadecimal[2:].upper())
     length = len(hexa)
+    #각 자릿수에 맞게 16의 승수를 곱해서 더해준다.
     for i,e in enumerate(hexa):
         if e.isalpha(): answer += (ord(e)-55)*(16**(length-1-i))
         else: answer += (16**(length-1-i))*int(e)
