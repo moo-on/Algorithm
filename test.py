@@ -15,7 +15,6 @@ def solution(skill, skill_trees):
                 if skill_lst[0] == s:
                     skill_set.remove(s)
                     skill_lst.pop(0)
-                    
                     continue
                 else: 
                     answer -=1
