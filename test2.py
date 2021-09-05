@@ -1,19 +1,38 @@
 # ["abab","bbaa","bababa","bbbabababbbaa"] [true,false,false,true]
 
+def bitwise(lst):
+    temp = lst[0]
+    for e in lst:
+        if temp & e == 0: return True
+        temp = temp & e
+    else: return False
 
-def solution(a):
+
+def BFS(lst, i):
+    for i in range(len(lst)):
+        lst[i] = lst[i] - 1
+        if bitwise(lst) == True:
+            return i
+
+
+
+def solution(m, b):
     answer = []
-    for s in a:
-        while len(s)>=2:
-            if s[0] == 'a' or s[-1] == 'a':
-                s = s.strip("a")
-            elif s[0] == 'b' and s[-1] == 'b':
-                s = ''.join([s[1:-1]])
-        if s =='a':
-            answer.append(True)
-        else :
-            answer.append(False)
+    index = 0
+    for i in m:
+        lst = b[:m]
+        b = b[m:]
+
+
+
     return answer
 
-print(solution(["abab","bbaa","bababa","bbbabababbbaa"]))
+print(solution([2, 2], [3, 2, 1, 2]))
 
+
+
+b =[1,2,3,4]
+m= b[:2]
+b= b[2:]
+
+print()
