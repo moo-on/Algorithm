@@ -1,55 +1,68 @@
 import heapq
+from collections import deque
 
 def solution(jobs):
-    jobs.sort()
-    answer = 0
-    _heap = []
+    answer = []
+    len_ = len(jobs)
 
-    # 1. 기준점보다 작업요청이 빠른 작업들을 힙안에 넣어준다.
-    temp = 0
-    for job in jobs:
-        if temp >= job[0]:
-            # 1-1. 작업시간이 최소인 아이템을 선별하기 위해서 바꿔서 푸쉬해준다.
-            heapq.heappush(_heap, [job[1], job[0]])
-    # 2. 기준점보다 작업요청이 느린 작업을 만나면, 지금까지 힙에 쌓아논 아이템 중에 가장 최소 값을 빼내어서 현재 기준점을 업데이트 해준다. 그 후 heap 안에 push
-        elif temp < job[0] and len(_heap) ==0:
-            temp = job[0]
-            heapq.heappush(_heap, [job[1], job[0]])
-            items = heapq.heappop(_heap)
-            # 기준점 올려주기
-            temp += items[0]
+    heap_ = []
+    jobs = deque(sorted(jobs))
 
-        elif temp < job[0]:
-            items = heapq.heappop(_heap)
-            # 대기시간 더해주기.(순서를 바꿔서 넣은것 참고)
-            answer += (temp - items[1] + items[0])
-            heapq.heappush(_heap, [job[1], job[0]])
-            # 기준점 올려주기
-            temp += items[0]
+    job = jobs.popleft()
+    temp = job[0]
 
-            # 2-1. 올라간 기준점으로 할 수 있는 2번 작업 다 해주기
-            if len(_heap) >= 1:
-                while temp <= _heap[0][1]:
-                    items = heapq.heappop(_heap)
-                    # 대기시간 더해주기.(순서를 바꿔서 넣은것 참고)
-                    answer += (temp - items[1] + items[0])
-                    heapq.heappush(_heap, [job[1], job[0]])
-                    # 기준점 올려주기
-                    temp += items[0]
-                    # heap이 남아있지 않은 경우 에러 방지
-                    if len(_heap) ==0: break
-                    # 다시 heapq 넣기 반복
-
-    # for state 반복 후 heapq 안에 작업들 남아 있을 경우 처리.
-    while _heap:
-        items = heapq.heappop(_heap)
-        answer += (temp - items[1] + items[0])
-        temp += items[0]
-
-    return answer//len(jobs)
+    finish = []
 
 
+    while jobs:
+        # 1. heap이 비어 있어, 작업 요청이 들어오고 바로 시작하는 경우
+        if not heap_ and temp <= job[0]:
+            answer.append(job[1])`
+            temp = job[0]+job[1]
+            job = jobs.popleft() # 새로운 작업 시작
 
-print(solution([[1, 9], [1, 4], [1, 5], [1, 7], [1, 3]]))
-print(solution([[24, 10], [28, 39], [43, 20], [37, 5], [47, 22], [20, 47], [15, 34], [15, 2], [35, 43], [26, 1]]))
-# 2
+        # 2. 작업 요청이 끝나는 지점 보다, 이전 작업이 요청 들어오는 경우 전부 추가해주기
+        while temp > job[0]:
+            heapq.heappush(heap_, [job[1], job[0]]) # 소요시간이 짧은 작업부터 빼내기 위함
+            if jobs:
+                job = jobs.popleft()
+            else:
+                break
+
+
+        # 3. heap 안에 작업 하나씩 요청 처리
+        if heap_:
+            item = heapq.heappop(heap_)
+            item[0], item[1] = item[1], item[0]
+            answer.append(temp - item[0] + item[1])
+            temp += item[1]
+
+        if not jobs:
+            heapq.heappush(heap_, [job[1], job[0]])
+
+
+    # heap 안에 작업이 남은 경우
+    while heap_ :
+        item = heapq.heappop(heap_)
+        item[0], item[1] = item[1], item[0]
+        answer.append(temp - item[0] + item[1])
+        temp += item[1]
+
+
+
+    if len_ == 1:
+        return job[1]
+
+    print(answer)
+
+    return answer
+
+
+
+#print(solution([[1, 9], [1, 4], [1, 5], [1, 7], [1, 3]])) #13
+#print(solution([[24, 10], [28, 39], [43, 20], [37, 5], [47, 22], [20, 47], [15, 34], [15, 2], [35, 43], [26, 1]])) # 72
+
+print(solution([[0, 10], [4, 10], [15, 2], [5, 11]]))
+
+
+
