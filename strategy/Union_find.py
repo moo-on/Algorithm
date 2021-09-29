@@ -21,24 +21,35 @@ def union_parent(parent, a, b):
         parent[a] = b
 
 
-answer = 0
-
 # 노드의 개수와 간선(Union 연산) 입력 받기
-v = 4
-_input = [[0, 1, 1], [0, 2, 2], [1, 2, 5], [1, 3, 1], [2, 3, 8]]
+v = 6
+_input = [[1, 2], [1, 4], [2, 3], [5, 6]]
+_input = [[1, 2], [2, 3], [3, 4], [4, 5]]
+_input = [[1, 3], [1, 6], [2, 4], [4, 6]]
 
 # 부모 테이블상에서, 부모를 자기 자신으로 초기화
-parent = [i for i in range(v)]
+parent = [i for i in range(v + 1)]
 
 # Union 연산을 각각 수행
-_input.sort(key=lambda x: x[2])
-
 for e in _input:
-    if find_parent(parent, e[0]) != find_parent(parent, e[1]):
-        union_parent(parent, e[0], e[1])
-        answer += e[2]
+    union_parent(parent, e[0], e[1])
+print(parent)
+# 각 원소가 속한 집합 출력하기
+print('각 원소가 속한 집합: ', end='')
+for i in range(1, v + 1):
+    print(find_parent(parent, i), end=' ')
 
-print(answer)
+print()
 
+# 부모 테이블 내용 출력하기
+print('부모 테이블: ', end='')
+for i in range(1, v + 1):
+    print(parent[i], end=' ')
 
+# v=6
+# e=4
 
+# 1 2
+# 1 4
+# 2 3
+# 5 6
