@@ -1,37 +1,45 @@
-n1 = 6
-edge1 = [[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]	#3
+def DFS(cnt, prev_node, i):
+    if cnt == len(lst): return
 
-def DFS(answer_lst, edge, i, cnt,n):
-    for e in edge[i]:
-        if cnt == len(answer_lst) - 1: break
-        elif e == 1:
-            if answer_lst[n] > cnt:
-                answer_lst[n] = cnt
-                break
-        DFS(answer_lst, edge, e, cnt +1, n)
+    # 현재 가는 경로가 더 긴 루트라면 끝낸다.
+    if check_lst[i] <= check_lst[prev_node] + 1: return
+
+    # 아니라면 현재 노드에 짧은 값 대입
+    check_lst[i] = check_lst[prev_node] + 1
+
+    # 현재 노드에서 다음 노드로 가지 쳐준다.
+    for node in lst[i]:
+        DFS(cnt + 1, i, node)
 
 def solution(n, edge):
-    answer_lst  = [30000 for _ in range(n+1)]
-    lst = [set() for _ in range(n+1)]
+    global lst
+    global check_lst
+
+    lst = [[] for _ in range(n+1)]
+    check_lst = [20001 for _ in range(n+1)]
+    check_lst[0] = -1
 
     for e in edge:
-        lst[e[0]].add(e[1])
-        lst[e[1]].add(e[0])
+        lst[e[0]].append(e[1])
+        if e[0] == 1: continue
+        lst[e[1]].append(e[0])
 
-    for i in range(2, n+1):
-        DFS(answer_lst, lst, i,1,i)
+    DFS(0, 0, 1)
 
-    uniq = set(answer_lst)
-    MAX = sorted(uniq, reverse=True)[1]
-    answer = answer_lst.count(MAX)
+    check_lst.sort(reverse=True)
+    for i in check_lst:
+        if i == 20001: continue
+        MAX = i
+        break
+
+    answer = check_lst.count(MAX)
+
     return answer
 
 
-#solution(n1, edge1)
-
 print(solution(6, [[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]), 3)
 print(solution(11, [[1, 2], [1, 3], [2, 4], [2, 5], [3, 5], [
-      3, 6], [4, 8], [4, 9], [5, 9], [5, 10], [6, 10], [6, 11]]), 4)
+    3, 6], [4, 8], [4, 9], [5, 9], [5, 10], [6, 10], [6, 11]]), 4)
 print(solution(4, [[1, 2], [2, 3], [3, 4]]), 1)
 print(solution(2, [[1, 2]]), 1)
 print(solution(5, [[4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]), 2)
