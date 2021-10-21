@@ -1,22 +1,26 @@
-lst = [1,2,3]
+answer = -1
 
-def test():
-    print(lst)
-    return
+def DFS(n, pos, num, number, s):
+    global answer
+    if pos > 8:
+        return
+    if num == number:
+        if pos < answer or answer == -1:
+            #print(s)            
+            answer=pos
+        return
 
-def solution():
+    nn=0
+    for i in range(8):
+        nn=nn*10+n
+        DFS(n, pos+1+i, num+nn, number, s+'+')
+        DFS(n, pos+1+i, num-nn, number, s+'-')
+        DFS(n, pos+1+i, num*nn, number, s+'*')
+        DFS(n, pos+1+i, num/nn, number, s+'/')
 
-    lst = [1,2,3]
-    lst.append(4)
-    print(lst)
-    return
+def solution(N, number):    
+    DFS(N, 0, 0, number, '')    
+    return answer
 
 
-solution()
-
-print(lst)
-
-a= "abc"
-b= "abc"
-id(a)
-id(b)
+print(solution(8, 53))
