@@ -3,8 +3,8 @@ import heapq
 
 heap = [9999]
 
-def solution(m, n, puddles):
 
+def solution(m, n, puddles):
     graph = [[9999 for _ in range(m + 1)] for _ in range(n + 1)]
 
     dx = [-1, 0, 1, 0]
@@ -29,8 +29,12 @@ def solution(m, n, puddles):
     DFS([1, 2], 1)
     DFS([2, 1], 1)
 
-
     return heap.count(heap[0])
 
 
 print(solution(4, 3, [[2, 2]]))
+
+set1 = [1,2,3]
+set2 = [1,2,3]
+if set1 == set2:
+    print("yes")
