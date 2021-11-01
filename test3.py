@@ -1,40 +1,35 @@
 # 4	3	[[2, 2]]	4
 import heapq
 
-heap = [9999]
-
 
 def solution(m, n, puddles):
-    graph = [[9999 for _ in range(m + 1)] for _ in range(n + 1)]
+    answer = 0
 
-    dx = [-1, 0, 1, 0]
-    dy = [0, 1, 0, -1]
+    m, n = n, m
+    puddles = list(map(tuple, puddles))
+    puddles = set(puddles)
 
-    def DFS(start, cnt):
-        if start == [m, n]:
-            heapq.heappush(heap, cnt)
+    dx = [1, 0]
+    dy = [0, 1]
+
+    def dfs(x, y):
+        nonlocal answer
+        if x == m and y == n:
+            answer += 1
+            answer %= 1000000007
             return
 
-        x, y = start[0], start[1]
-        graph[y][x] = cnt
-        for i in range(4):
+        for i in range(2):
             nx = x + dx[i]
             ny = y + dy[i]
-            if nx <= 0 or nx > m or ny <= 0 or ny > n: continue
-            if graph[ny][nx] < cnt + 1: continue
-            if [nx, ny] in puddles: continue
-            if cnt + 1 > heap[0]: return
-            DFS([nx, ny], cnt + 1)
+            if nx > m or ny > n: continue
+            if (ny, nx) in puddles: continue
 
-    DFS([1, 2], 1)
-    DFS([2, 1], 1)
+            dfs(nx, ny)
 
-    return heap.count(heap[0])
+    dfs(1, 1)
+
+    return answer % 1000000007
 
 
 print(solution(4, 3, [[2, 2]]))
-
-set1 = [1,2,3]
-set2 = [1,2,3]
-if set1 == set2:
-    print("yes")
