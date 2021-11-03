@@ -1,35 +1,48 @@
-# 4	3	[[2, 2]]	4
-import heapq
+# 9	[[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]	3
+# 4	[[1,2],[2,3],[3,4]]	0
+# 7	[[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]	1
+
+# 1. 그래프 만들기
+# 2-1 그래프 하나씩 자르기
+# 2. 그래프로 각 노드 개수 세기
+# 3. 서로 비교하는데, 비교한 놈이랑 겹치면 취소
+
+from collections import deque
+import copy
 
 
-def solution(m, n, puddles):
-    answer = 0
+def solution(n, wires):
+    answer = []
+    graph = [[] for _ in range(n + 1)]
+    # 그래프 만들기
+    for wire in wires:
+        graph[wire[0]].append(wire[1])
+        graph[wire[1]].append(wire[0])
 
-    m, n = n, m
-    puddles = list(map(tuple, puddles))
-    puddles = set(puddles)
+    for wire in wires:
+        # 그래프 하나 씩 끊어주기
+        copy_graph = copy.deepcopy(graph)
+        copy_graph[wire[0]].remove(wire[1])
+        copy_graph[wire[1]].remove(wire[0])
 
-    dx = [1, 0]
-    dy = [0, 1]
+        node1, node2 = wire[0], wire[1]
+        # 그래프 노드 차이 세주기
+        diff = []
+        for node in [node1, node2]:
+            queue = deque([node])
+            visited = [0 for _ in range(n + 1)]
 
-    def dfs(x, y):
-        nonlocal answer
-        if x == m and y == n:
-            answer += 1
-            answer %= 1000000007
-            return
+            cnt = 0
+            while queue:
+                temp = queue.popleft()
+                if visited[temp] == 0:
+                    visited[temp] = 1
+                    cnt += 1
+                    queue.extend(copy_graph[temp])
+            diff.append(cnt)
+        answer.append(abs(diff[0] - diff[1]))
 
-        for i in range(2):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx > m or ny > n: continue
-            if (ny, nx) in puddles: continue
-
-            dfs(nx, ny)
-
-    dfs(1, 1)
-
-    return answer % 1000000007
+    return min(answer)
 
 
-print(solution(4, 3, [[2, 2]]))
+print(solution(9, [[1, 3], [2, 3], [3, 4], [4, 5], [4, 6], [4, 7], [7, 8], [7, 9]]))
