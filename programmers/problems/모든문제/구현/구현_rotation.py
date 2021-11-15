@@ -28,4 +28,3 @@ def solution(tree):
 
 
 print(solution(input))
-
