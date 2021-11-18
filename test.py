@@ -1,18 +1,15 @@
-def solution(tickets):
-    tickets.sort(reverse=True)
-    routes = dict()
-    for t1, t2 in tickets:
-        if t1 in routes:
-            routes[t1].append(t2)
-        else:
-            routes[t1] = [t2]
-    st = ['ICN']
-    ans = []
-    while st:
-        top = st[-1]
-        if top not in routes or len(routes[top])==0:
-            ans.append(st.pop())
-        else:
-            st.append(routes[top].pop())
-    ans.reverse()
-    return ans
+def visit(k, graph, visited):
+    visited[k] = 1
+    for i in range(len(graph[k])):
+        if visited[i] == 0 & graph[k][i]:
+            visit(i, graph, visited)
+
+def solution(n, computers):
+    answer = 0
+    visited = [0]*n
+
+    for i in range(n):
+        if visited[i] == 0:
+            visit(i, computers, visited)
+            answer += 1
+    return answer
