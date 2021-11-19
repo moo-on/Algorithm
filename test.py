@@ -1,15 +1,14 @@
-def visit(k, graph, visited):
-    visited[k] = 1
-    for i in range(len(graph[k])):
-        if visited[i] == 0 & graph[k][i]:
-            visit(i, graph, visited)
+def divisor(n):
+    lst=[]
+    for i in range(1, int(n**0.5)+1):
+        if n%i == 0:
+            lst.append([i, n//i])
+    return lst
 
-def solution(n, computers):
-    answer = 0
-    visited = [0]*n
+def solution(brown, yellow):
 
-    for i in range(n):
-        if visited[i] == 0:
-            visit(i, computers, visited)
-            answer += 1
-    return answer
+    for lst in divisor(yellow):
+        if brown == (lst[0]*2 + lst[1]*2 + 4):
+            lst[0] += 2
+            lst[1] += 2
+            return list(reversed(lst))
