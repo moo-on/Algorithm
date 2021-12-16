@@ -1,7 +1,5 @@
-a = "3"
+test_set = set([1,2,3,4])
 
-b = a
+remove_set = set([1,2])
 
-b+= "f"
-
-b+ "f"
+test_set.remove(set([1,2]))
