@@ -1,9 +1,7 @@
-
 import copy
 
 
-def solution(s):
-    answer = []
+def change(s):
     temp = []
     lst = s.split("}")
     for i, e in enumerate(lst):
@@ -14,7 +12,12 @@ def solution(s):
         e = list(map(int, e))
         temp.append(e)
     temp.sort(key=lambda x: len(x))
-    temp = list(map(set, temp))
+    return list(map(set, temp))
+
+
+def solution(s):
+    answer = []
+    temp = change(s)
 
     for i, e in enumerate(temp):
         if i == 0:
@@ -23,6 +26,7 @@ def solution(s):
 
         ori = copy.deepcopy(e)
         prev = temp[i - 1]
+
         for e_e in prev:
             ori.discard(e_e)
 
