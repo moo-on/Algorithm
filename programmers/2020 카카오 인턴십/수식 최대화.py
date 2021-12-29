@@ -22,6 +22,9 @@ def calc(expression, operators, n):
 def solution(expression):
     answer = []
 
+    ex = re.split(r'(\D)', expression)
+    print(ex)
+
     operators = [e for e in expression if not e.isalnum()]
     expressions = re.split("[+*-]", expression)
 
@@ -38,3 +41,4 @@ def solution(expression):
 
 
 print(solution("100-200*300-500+20"))
+
