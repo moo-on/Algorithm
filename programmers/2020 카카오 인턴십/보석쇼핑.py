@@ -37,7 +37,7 @@ def solution(gems):
 
         gems_dic[gems[i]] += 1
 
-        while s_i <= llen_ - 1 and gems_dic[gems[s_i]] > 1 :
+        while s_i <= llen_ - 1 and gems_dic[gems[s_i]] > 1:
             gems_dic[gems[s_i]] -= 1
             s_i += 1
 
@@ -45,9 +45,9 @@ def solution(gems):
             answer = [s_i, i]
             MIN = e_i - s_i
 
-    return [e+1 for e in answer]
+    return [e + 1 for e in answer]
 
 
 print(solution(["DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"]), [3, 7])
 print(solution(["ZZZ", "YYY", "NNNN", "YYY", "BBB"]), [1, 5])
-print(solution(["A","B","B","B","B","B","B","C","B","A"]))
+print(solution(["A", "B", "B", "B", "B", "B", "B", "C", "B", "A"]))
