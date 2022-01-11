@@ -14,9 +14,9 @@ from collections import deque
 
 
 def solution(board):
-    answer = -1
+    answer = 987654321
     len_ = len(board)
-    board_cost = [[[-1 for _ in range(len_)] for _ in range(len_)] for _ in range(2)]
+    board_cost = [[[987654321 for _ in range(len_)] for _ in range(len_)] for _ in range(2)]
     # z  y  x  cost  dir
     q = deque([[0, 0, 1, 100], [1, 1, 0, 100]])
 
@@ -26,18 +26,17 @@ def solution(board):
 
         # termination condition
         if x == len_ - 1 and y == len_ - 1:  # encounter of destination
-            if answer > cost or answer == -1:
+            if answer > cost:
                 answer = cost
             continue
         elif x < 0 or x >= len_ or y < 0 or y >= len_:  # out of range
             continue
-        elif board_cost[z][y][x] == -1 or board_cost[z][y][x] <= cost:  # cost more expensive than dp
+        elif board_cost[z][y][x] <= cost:  # cost more expensive than dp
             continue
         elif board[y][x] == 1:  # encounter of wall
             continue
 
-
-        # pass the condition
+        # after pass
         board_cost[z][y][x] = cost
 
         # if dir == "row"
