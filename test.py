@@ -1,51 +1,59 @@
-di, dj = [1, -1, 0, 0], [0, 0, 1, -1]  # down, up, right, left
-sub_d = [1, -1]
-len_ = 5
-
-def check(i, j, place):
-    for n in range(4):
-        ni = i + di[n]
-        nj = j + dj[n]
-        if 0 <= ni < len_ and 0 <= nj < len_:
-            if place[ni][nj] == "P": return False
-            if place[ni][nj] == "O":
-                for m in range(4):
-                    if di[n] == -di[m] and dj[n] == -dj[m]: continue  # if go back, pass
-                    ni = i + di[n] + di[m]
-                    nj = j + dj[n] + dj[m]
-                    if 0 <= ni < len_ and 0 <= nj < len_:
-                        if place[ni][nj] == "P": return False
-    return True
-
-def solution(places):
-    answer = []
-    # explore the room
-    for place in places:
-
-        # casting room form
-        temp_place = []
-        temp_answer = []
-        for p in place:
-            temp_place.append(list(p))
-
-        # checking for tile
-        for i in range(len(place)):
-            for j in range(len(place)):
-                if place[i][j] == "P":
-                    if not check(i, j, temp_place):
-                        temp_answer.append(0)
-                        break
-            if 0 in temp_answer:
-                break
-
-        if 0 in temp_answer:
-            answer.append(0)
-        else:
-            answer.append(1)
-
-    return answer
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+from collections import deque
 
 
-print(solution([["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"], ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"],
-                ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"], ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"],
-                ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"]]))
+def solution(n, k, cmd):
+    answer = ''
+    read_only = [i for i in range(n)]
+    undo = deque([])
+    log = []
+
+    for command in cmd:
+        c = command.split()
+
+        if c[0] == "U":
+            c[1] = int(c[1])
+            k -= c[1]
+
+        if c[0] == "D":
+            c[1] = int(c[1])
+            k += c[1]
+
+        if c[0] == "C":
+            undo.append(read_only.pop(k))
+            log.append(k)
+
+            if len(read_only) - 1 == k:  # last section
+                k -= 1
+                log[-1] = "end"
+
+        if c[0] == "Z":
+            u = undo.pop()
+            l = log.pop()
+
+            if u < read_only[k]:
+                k += 1
+            if l == "end":
+                read_only.append(u)
+                continue
+            read_only.insert(l, u)
+
+        answer = ["X" for _ in range(n)]
+        for e in read_only:
+            answer[e] = "O"
+
+    return ''.join(answer)
+
+
+print(solution(8, 2, ["D 2", "C", "U 3", "C", "D 4", "C", "U 2", "Z", "Z"]))
