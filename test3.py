@@ -1,55 +1,53 @@
+#
+#
 
+# 상하좌우 패턴이 같으므로 하나의 컴포넌트 완성 후 돌려서 합친다.
+def rotated(a):
+    n = len(a)
+    m = len(a[0])
 
-def solution(n, k, cmd):
-    answer = ["X" for _ in range(n)]
-    link_dict = {}
+    result = [[0] * n for _ in range(m)]
+
     for i in range(n):
-        link_dict[i] = {"prev": i - 1, "next": i + 1}
-    link_dict[0]["prev"], link_dict[n - 1]["next"] = "head", "tail"
-    link_dict["head"] = {"next": 0}
-
-    undo = []
-    for command in cmd:
-        c = command.split()
-
-        if c[0] == "U":
-            for _ in range(int(c[1])):
-                k = link_dict[k]["prev"]
-
-        if c[0] == "D":
-            for _ in range(int(c[1])):
-                k = link_dict[k]["next"]
-
-        if c[0] == "C":
-            prev, next = link_dict[k]["prev"], link_dict[k]["next"]
-            undo.append(k)
-
-            if next == "tail":
-                link_dict[prev]["next"] = link_dict[k]["next"]
-                k = link_dict[k]["prev"]
-                continue
-
-            link_dict[prev]["next"] = link_dict[k]["next"]
-            link_dict[next]["prev"] = link_dict[k]["prev"]
-            k = link_dict[k]["next"]
-
-        if c[0] == "Z":
-            node = undo.pop()
-            prev, next = link_dict[node]["prev"], link_dict[node]["next"]
-
-            if next == "tail":
-                link_dict[prev]["next"] = node
-                continue
-
-            link_dict[prev]["next"] = node
-            link_dict[next]["prev"] = node
-
-    start = link_dict["head"]["next"]
-    while start != "tail":
-        answer[start] = "O"
-        start = link_dict[start]["next"]
-
-    return ''.join(answer)
+        for j in range(m):
+            result[j][n - i - 1] = a[i][j]
+    return result
 
 
-print(solution(8, 2, ["D 2", "C", "U 3", "C", "D 4", "C", "U 2", "Z", "Z", "U 1", "C"]))
+def solution(n, clockwise):
+    answer = [[0 for _ in range(n)] for _ in range(n)]
+    up = [[0 for _ in range(n)] for _ in range(n)]
+
+    # up, 만들기 쉬운 컴포넌트 제작
+    start, end = 0, n - 1
+    cnt = 1
+    for i in range(n // 2):  # 짝수 6 ->3개 블럭, 홀수 9 -> 4개 블럭
+        for j in range(start, end):
+            up[i][j] = cnt
+            cnt += 1
+        start += 1
+        end -= 1
+
+    # 각 컴포넌트를 돌려서 만들어 준다.
+    right = rotated(up)
+    down = rotated(right)
+    left = rotated(down)
+
+    # 합치기
+    for i in range(n):
+        for j in range(n):
+            answer[i][j] += (up[i][j] + right[i][j] + down[i][j] + left[i][j])
+
+    # 홀수
+    if n % 2 == 1:
+        answer[n // 2][n // 2] = answer[n // 2][n // 2 - 1] + 1
+
+    # 반시계
+    if clockwise == False:
+        for i in range(n):
+            answer[i].reverse()
+
+    return answer
+
+
+print(solution(6, False))

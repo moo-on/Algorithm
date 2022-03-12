@@ -1,63 +1,40 @@
-from collections import deque
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+import math
 
 
-def solution(n, k, cmd):
-    answer = ''
-    link_dict = {}
-    for i in range(n):
-        link_dict[i] = {"prev": i - 1, "next": i + 1}
-    link_dict[0]["prev"], link_dict[n - 1]["next"] = "head", "tail"
-    link_dict["head"] = {next: 0}
+def solution(width, height, diagonals):
+    answer = []
 
-    print(link_dict)
+    for dia in diagonals:
+        start_to_dia = []
+        dia_to_end = []
+        # 대각선 하나씩 구해주기
+        for i in [[1, 0], [0, 1]]:
+            dia_1 = [dia[0] - i[0], dia[1] - i[1]]
+            mid_route = math.factorial(dia_1[0] + dia_1[1]) / (
+                        math.factorial(dia_1[0]) * math.factorial(dia_1[1]))  # 나중 end_route 곱
+            start_to_dia.append(mid_route)
 
-    undo = []
-    for command in cmd:
-        c = command.split()
+            w, h = width - dia_1[0], height - dia_1[1]  # 대각선지나고 난 후 계산
+            end_route = math.factorial(w + h) / (math.factorial(w) * math.factorial(h))
+            dia_to_end.append(end_route)
+        # 값 들 대칭으로 곱해주기
+        total = start_to_dia[0] * dia_to_end[1] + start_to_dia[1] * dia_to_end[0]
+        answer.append(total)
 
-        if c[0] == "U":
-            for _ in range(int(c[1])):
-                k = link_dict[k]["prev"]
-
-        if c[0] == "D":
-            for _ in range(int(c[1])):
-                k = link_dict[k]["next"]
-
-        if c[0] == "C":
-            prev, next = link_dict[k]["prev"], link_dict[k]["next"]
-            undo.append(k)
-
-            if prev == "head":
-                link_dict[prev]["next"] = link_dict[k]["next"]
-                link_dict[next]["prev"] = link_dict[k]["prev"]
-                k = link_dict[k]["next"]
-                continue
-
-            if next == "tail":
-                link_dict[prev]["next"] = link_dict[k]["next"]
-                k = link_dict[k]["prev"]
-                continue
-
-            link_dict[prev]["next"] = link_dict[k]["next"]
-            link_dict[next]["prev"] = link_dict[k]["prev"]
-            k = link_dict[k]["next"]
-
-        if c[0] == "Z":
-            node = undo.pop()
-            prev, next = link_dict[node]["prev"], link_dict[node]["next"]
-
-            if prev == "head":
-                link_dict[next]["prev"] = node
-                continue
-
-            if next == "tail":
-                link_dict[prev]["next"] = node
-                continue
-
-            link_dict[prev]["next"] = node
-            link_dict[next]["prev"] = node
-
-    return link_dict
+    return answer
 
 
-print(solution(8, 2, ["D 2", "C", "U 3", "C", "D 4", "C", "U 2", "Z", "Z", "U 1", "C"]))
+print(solution(2, 2, [[1, 1], [2, 2]]))
+print(solution(51, 37, [[17, 19]]))

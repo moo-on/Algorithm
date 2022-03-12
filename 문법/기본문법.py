@@ -25,7 +25,6 @@ class oneline_if:
 # #collections 덱 카운터
 # #math 필수적 수학기능 gcd lcm
 
-#내장 종류
-# #sum() min() max() eval() sorted(lst) sort()
-
 #filter,map의 활용
+
+
